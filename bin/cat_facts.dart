@@ -1,3 +1,6 @@
+import 'package:cat_facts/cat_fact_app.dart';
+
 void main(List<String> args) async {
-  print('app that gets cat facts"');
+  final app = CatFactApp();
+  await app.run();
 }
