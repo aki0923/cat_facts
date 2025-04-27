@@ -54,9 +54,56 @@ class CatFactApp {
   }
 
   
-  Future<void> run() async {
+    Future<void> run() async {
     print('Welcome to Cat Facts App!');
-    final fact = await fetchRandomCatFact();
-    print('\nCat Fact: ${fact.fact}');
+    await selectLanguage();
+
+    // список понравившихся фактов
+   List<CatFact> favorites = [];
+
+    print('\nStarting fact loop. Choose an option after each fact.\n');
+    bool running = true;
+    while (running) {
+      final fact = await fetchRandomCatFact();
+      print('\nCat Fact: ${fact.fact}');
+
+      // меню опций
+      print('''
+Options:
+1. Like and next
+2. Next
+3. Show favorites
+4. Exit
+''');
+      stdout.write('Your choice: ');
+      final choice = stdin.readLineSync()?.trim();
+
+      switch (choice) {
+        case '1':
+          favorites.add(fact);
+          print('👍 Added to favorites.');
+          break;
+        case '2':
+          // просто следующий факт
+          break;
+        case '3':
+          if (favorites.isEmpty) {
+            print('\n❤ Favorites list is empty.');
+          } else {
+            print('\n❤ Your favorites:');
+           for (var f in favorites) {
+              print('- ${f.fact}');
+            }
+          }
+          break;
+        case '4':
+          running = false;
+          break;
+        default:
+          print('Invalid choice, please try again.');
+      }
+    }
+
+    print('\nGoodbye!');
   }
 }
